@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[COMPANY NAME] — Private, On-Premise AI Systems</title>
+  <meta name="description" content="Frontier-class AI that runs entirely on your own hardware. I design, build, and install local AI systems for law firms, medical practices, and privacy-conscious businesses. No cloud, no per-token fees, no vendor lock-in.">
+  <link rel="canonical" href="https://www.example.com/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preload" href="assets/fonts/Archivo-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/IBMPlexMono-500.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="[COMPANY NAME] — Private, On-Premise AI Systems">
+  <meta property="og:description" content="Frontier-class AI. Zero cloud. Your data never leaves the building. Local AI systems designed, built, and installed by one engineer, end to end.">
+  <meta property="og:url" content="https://www.example.com/">
+  <meta property="og:image" content="https://www.example.com/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": ["LocalBusiness", "ProfessionalService"],
+    "name": "[COMPANY NAME]",
+    "description": "Design, build, and installation of fully local, private AI systems for individuals and small-to-mid-size businesses. On-premise document intelligence, transcription, automation, and custom AI — no cloud, no per-token fees.",
+    "url": "https://www.example.com/",
+    "email": "[YOUR@EMAIL]",
+    "image": "https://www.example.com/assets/og.png",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "[CITY]",
+      "addressRegion": "[STATE]",
+      "addressCountry": "US"
+    },
+    "founder": {
+      "@type": "Person",
+      "name": "[YOUR NAME]"
+    },
+    "priceRange": "$$",
+    "knowsAbout": ["Local AI deployment", "On-premise machine learning", "Retrieval-augmented generation", "GPU hardware", "AI workflow automation"]
+  }
+  </script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <nav class="container nav" aria-label="Main">
+    <a class="brand" href="#top">
+      <svg class="brand-mark" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 21V10l9-6 9 6v11" fill="none" stroke="currentColor" stroke-width="2"/>
+        <circle cx="12" cy="14" r="2.5" fill="var(--amber)" stroke="none"/>
+      </svg>
+      <span>[COMPANY&nbsp;NAME]</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu">
+      <span class="nav-toggle-bar" aria-hidden="true"></span>
+      Menu
+    </button>
+    <ul class="nav-menu" id="nav-menu">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#why-local">Why Local</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a class="btn btn-small" href="#contact">Book a consultation</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- ============ 01 HERO ============ -->
+  <section class="hero" id="top">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="tick" aria-hidden="true"></span>PRIVATE, ON-PREMISE AI SYSTEMS</p>
+        <h1>Frontier-class AI.<br>Zero cloud.<br><em>Your data never leaves the&nbsp;building.</em></h1>
+        <p class="lede">I design, build, and install AI systems that run entirely on hardware you own. Document intelligence, transcription, automation — with nothing sent to a third party, ever. One engineer, end to end: needs assessment, hardware, models, integration, training, support.</p>
+        <div class="cta-row">
+          <a class="btn" href="#contact">Book a free consultation</a>
+          <a class="btn btn-ghost" href="#services">See what it can do</a>
+        </div>
+        <dl class="hero-specs" aria-label="Key facts">
+          <div><dt>Cloud dependency</dt><dd>None</dd></div>
+          <div><dt>Per-token fees</dt><dd>$0</dd></div>
+          <div><dt>Data leaving your network</dt><dd>0 bytes</dd></div>
+        </dl>
+      </div>
+
+      <!-- Signature element: the data-perimeter schematic -->
+      <figure class="perimeter" aria-label="Schematic: AI data flow stays inside your building; the route to the cloud does not exist.">
+        <svg viewBox="0 0 460 400" role="img" aria-labelledby="schematic-title">
+          <title id="schematic-title">Diagram of an on-premise AI system. Documents, a workstation, an AI server, and email flow to each other inside a building outline. A dashed line toward an external cloud is severed and labeled “no route”.</title>
+          <!-- grid -->
+          <g class="schem-grid" stroke-width="1">
+            <path d="M40 0v400M120 0v400M200 0v400M280 0v400M360 0v400M0 60h460M0 140h460M0 220h460M0 300h460M0 380h460"/>
+          </g>
+          <!-- cloud, outside the perimeter -->
+          <g class="schem-cloud">
+            <path d="M364 52c0-10 8-18 18-18 2-12 13-20 25-18 4-8 13-12 22-9 11 3 16 13 14 22 8 2 13 9 13 17 0 10-8 18-18 18h-56c-10 0-18-8-18-12z" fill="none" stroke-width="1.5"/>
+            <text x="412" y="50" class="schem-label" text-anchor="middle">CLOUD</text>
+          </g>
+          <!-- severed route -->
+          <g class="schem-deadline">
+            <path d="M318 143 L386 74" stroke-dasharray="5 6" stroke-width="1.5" fill="none"/>
+            <path d="M344 100l16 16M360 100l-16 16" stroke-width="2"/>
+            <text x="332" y="92" class="schem-label schem-label-dead" text-anchor="end">NO ROUTE</text>
+          </g>
+          <!-- building perimeter -->
+          <g class="schem-building">
+            <path d="M70 372V160l160-84 110 84v212" fill="none" stroke-width="2.5"/>
+            <path d="M54 372h392" stroke-width="2.5"/>
+            <text x="74" y="394" class="schem-label">YOUR BUILDING — THE ENTIRE SYSTEM LIVES HERE</text>
+          </g>
+          <!-- internal nodes -->
+          <g class="schem-nodes">
+            <g class="schem-flow">
+              <path d="M150 222 L226 270" />
+              <path d="M226 286 L150 330" />
+              <path d="M250 274 L300 232" />
+              <path d="M252 290 L300 326" />
+            </g>
+            <g class="node" transform="translate(150,210)">
+              <rect x="-34" y="-14" width="68" height="28" rx="2"/>
+              <text y="4" text-anchor="middle">DOCS</text>
+            </g>
+            <g class="node node-core" transform="translate(238,278)">
+              <rect x="-40" y="-16" width="80" height="32" rx="2"/>
+              <text y="4" text-anchor="middle">AI&nbsp;SERVER</text>
+              <circle class="led" cx="-30" cy="-8" r="2.5"/>
+            </g>
+            <g class="node" transform="translate(150,342)">
+              <rect x="-34" y="-14" width="68" height="28" rx="2"/>
+              <text y="4" text-anchor="middle">DESK</text>
+            </g>
+            <g class="node" transform="translate(300,222)">
+              <rect x="-34" y="-14" width="68" height="28" rx="2"/>
+              <text y="4" text-anchor="middle">EMAIL</text>
+            </g>
+            <g class="node" transform="translate(300,334)">
+              <rect x="-34" y="-14" width="68" height="28" rx="2"/>
+              <text y="4" text-anchor="middle">PHONE</text>
+            </g>
+          </g>
+        </svg>
+        <figcaption class="schem-caption">FIG. 1 — DATA PERIMETER. ALL INFERENCE, STORAGE, AND SEARCH OCCUR ON-PREMISE.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ 02 SERVICES ============ -->
+  <section class="section" id="services">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow"><span class="tick" aria-hidden="true"></span>01 / SERVICES</p>
+        <h2>What a local AI system can do for you</h2>
+        <p class="section-sub">Every module below runs on your hardware, inside your network. If your work is confidential by law, by contract, or by common sense, this is how you get modern AI without the disclosure problem.</p>
+      </header>
+
+      <div class="service-grid">
+        <article class="service">
+          <p class="module-label">MODULE 01 — RAG</p>
+          <h3>Private document intelligence</h3>
+          <p>“Which of our contracts auto-renew in the next 90 days?” Ask questions across every contract, case file, patient record, or project archive you have — in plain English — and get answers with citations back to the source page.</p>
+          <p class="deliver"><strong>You get:</strong> an on-premise search and Q&amp;A system indexed over your full document set, integrated with how you already store files.</p>
+          <p class="privacy-note">The index and every query stay on your server. Built for legal, medical, and accounting work.</p>
+        </article>
+
+        <article class="service">
+          <p class="module-label">MODULE 02 — MAIL</p>
+          <h3>Email triage &amp; drafting</h3>
+          <p>An assistant that reads your inbox, flags what actually needs you, summarizes the rest, and drafts replies in your voice — ready for a one-click review and send.</p>
+          <p class="deliver"><strong>You get:</strong> a local assistant wired into your existing mail client or server, tuned on your own sent mail.</p>
+          <p class="privacy-note">Your correspondence is processed on your machine. No inbox contents leave your network.</p>
+        </article>
+
+        <article class="service">
+          <p class="module-label">MODULE 03 — CONTENT</p>
+          <h3>Marketing &amp; content generation</h3>
+          <p>Blog posts, social copy, listing descriptions, client newsletters — generated locally and grounded in your past content, so it sounds like you and not like a template.</p>
+          <p class="deliver"><strong>You get:</strong> a content workstation trained on your brand voice, with reusable templates for your recurring formats.</p>
+          <p class="privacy-note">Your unpublished drafts, strategy, and client names never touch a third-party model.</p>
+        </article>
+
+        <article class="service">
+          <p class="module-label">MODULE 04 — AUDIO</p>
+          <h3>Meeting transcription &amp; summaries</h3>
+          <p>Record a client meeting, a deposition prep session, or a patient consult and get an accurate transcript, a summary, and a list of action items minutes later.</p>
+          <p class="deliver"><strong>You get:</strong> local speech-to-text (Whisper-class) with automatic summaries, speaker labels, and action-item extraction.</p>
+          <p class="privacy-note">No recording is ever uploaded. Essential for privileged, HIPAA-adjacent, or otherwise sensitive conversations.</p>
+        </article>
+
+        <article class="service">
+          <p class="module-label">MODULE 05 — SUPPORT</p>
+          <h3>Customer support assistant</h3>
+          <p>A chatbot that answers from your actual documentation, policies, and product data — for your website visitors or your internal staff — instead of improvising.</p>
+          <p class="deliver"><strong>You get:</strong> a grounded assistant running on your server, with an admin view of every conversation and a clean escalation path to a human.</p>
+          <p class="privacy-note">Customer conversations and your internal knowledge base stay on infrastructure you control.</p>
+        </article>
+
+        <article class="service">
+          <p class="module-label">MODULE 06 — DATA</p>
+          <h3>Data analysis &amp; reporting</h3>
+          <p>“Show me revenue by client for Q1, and which invoices are more than 30 days late.” Natural-language queries over your spreadsheets, databases, and business records — plus recurring reports that write themselves.</p>
+          <p class="deliver"><strong>You get:</strong> a local analysis layer over your existing data sources and scheduled, automated reporting.</p>
+          <p class="privacy-note">Your financials are analyzed where they live. Nothing is exported to anyone’s cloud.</p>
+        </article>
+
+        <article class="service">
+          <p class="module-label">MODULE 07 — OPS</p>
+          <h3>Workflow automation</h3>
+          <p>Intake forms that file themselves, CRM records that update from emails, invoices that get read and routed, scheduling that handles itself. AI wired into the tools you already run.</p>
+          <p class="deliver"><strong>You get:</strong> integrations between a local AI engine and your existing software, with the AI step kept fully on-device.</p>
+          <p class="privacy-note">Automation without handing a third party a feed of your operations.</p>
+        </article>
+
+        <article class="service service-custom">
+          <p class="module-label">MODULE 08 — CUSTOM</p>
+          <h3>Custom builds</h3>
+          <p>If it can be done with AI, it can be done locally. Vision systems, fine-tuned domain models, multi-site deployments, research tooling — if you have a problem that doesn’t fit a box above, that’s usually the interesting kind.</p>
+          <p class="deliver"><strong>You get:</strong> a scoped, fixed-deliverable engagement designed around your specific problem.</p>
+          <p class="privacy-note"><a href="#contact">Describe the problem</a> — the consultation is free either way.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03 PROCESS ============ -->
+  <section class="section" id="process">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow"><span class="tick" aria-hidden="true"></span>02 / PROCESS</p>
+        <h2>How an engagement works</h2>
+      </header>
+      <ol class="steps">
+        <li class="step">
+          <p class="step-num">STEP 1</p>
+          <h3>Free consultation</h3>
+          <p>We talk through your workflows and where the time actually goes. I tell you plainly what local AI can and can’t do for your situation — including when the honest answer is “you don’t need this.”</p>
+        </li>
+        <li class="step">
+          <p class="step-num">STEP 2</p>
+          <h3>System design</h3>
+          <p>I spec the hardware and software for your needs and budget: which models, what GPU and storage, how it connects to your existing tools. You get a written proposal with a fixed scope.</p>
+        </li>
+        <li class="step">
+          <p class="step-num">STEP 3</p>
+          <h3>Build &amp; deploy</h3>
+          <p>I build the machine, install it on-site or configure it remotely, integrate it with your workflows, and test it against your real documents and data until it earns its keep.</p>
+        </li>
+        <li class="step">
+          <p class="step-num">STEP 4</p>
+          <h3>Training &amp; support</h3>
+          <p>Your team learns the system from the person who built it. Ongoing support plans are available — model updates, tuning, and new capabilities as the field improves.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ 04 WHY LOCAL ============ -->
+  <section class="section" id="why-local">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow"><span class="tick" aria-hidden="true"></span>03 / WHY LOCAL</p>
+        <h2>Local AI vs. cloud AI, factually</h2>
+        <p class="section-sub">Cloud AI services are genuinely capable, and for plenty of businesses they’re the right call. But if your work involves privileged, regulated, or competitively sensitive information, the comparison looks like this:</p>
+      </header>
+
+      <div class="table-wrap">
+        <table class="compare">
+          <caption class="sr-only">Comparison of local on-premise AI and cloud AI services</caption>
+          <thead>
+            <tr>
+              <th scope="col">Attribute</th>
+              <th scope="col" class="col-local">Local / on-premise</th>
+              <th scope="col">Cloud AI services</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Where your data goes</th>
+              <td class="col-local">Nowhere. Inference, storage, and search happen inside your network.</td>
+              <td>To the provider’s data centers, governed by their terms and retention policies.</td>
+            </tr>
+            <tr>
+              <th scope="row">Confidentiality &amp; compliance</th>
+              <td class="col-local">Compatible with attorney–client privilege, HIPAA workflows, and CMMC/ITAR-adjacent environments, because no third party touches the data.</td>
+              <td>Possible, but requires vendor agreements (BAAs, DPAs), audits, and ongoing trust in someone else’s controls.</td>
+            </tr>
+            <tr>
+              <th scope="row">Cost model</th>
+              <td class="col-local">One-time build, plus an optional support plan. No per-seat or per-token charges.</td>
+              <td>Subscription and usage fees that continue forever and rise with adoption.</td>
+            </tr>
+            <tr>
+              <th scope="row">Internet dependency</th>
+              <td class="col-local">None. Works fully offline, including during outages.</td>
+              <td>Unavailable when your connection — or the provider — is down.</td>
+            </tr>
+            <tr>
+              <th scope="row">Vendor lock-in</th>
+              <td class="col-local">None. You own the hardware, the models, and the data. Swap any part later.</td>
+              <td>Models, prices, and terms can change under you with little notice.</td>
+            </tr>
+            <tr>
+              <th scope="row">Model behavior</th>
+              <td class="col-local">Pinned model versions. The system behaves the same tomorrow as today; you choose when to upgrade.</td>
+              <td>Models are updated or deprecated on the provider’s schedule.</td>
+            </tr>
+            <tr>
+              <th scope="row">Raw capability</th>
+              <td class="col-local">Today’s open models handle the large majority of real business tasks well; the gap to frontier cloud models keeps narrowing.</td>
+              <td>The very largest frontier models lead on the hardest reasoning tasks.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-footnote">That last row is the honest one. If your workload truly needs the absolute frontier, I’ll tell you in the first call.</p>
+    </div>
+  </section>
+
+  <!-- ============ 05 ABOUT ============ -->
+  <section class="section" id="about">
+    <div class="container about-grid">
+      <div>
+        <header class="section-head">
+          <p class="eyebrow"><span class="tick" aria-hidden="true"></span>04 / ABOUT</p>
+          <h2>One engineer, end to end</h2>
+        </header>
+        <div class="about-copy">
+          <p>I’m [YOUR NAME]. When you hire [COMPANY NAME], you work directly with me — the person who specs your hardware, builds the machine, deploys the models, and answers the phone afterward. No account managers, no hand-offs, no junior team learning on your project.</p>
+          <p>I’m a graduate researcher in [FIELD — e.g., electrical engineering] at [UNIVERSITY], and my background covers the full stack this work requires: embedded systems, GPU hardware, computer vision and ML inference pipelines (YOLO, TensorRT), Linux systems, and production deployments that have to keep working after I leave the room.</p>
+          <p>I also founded a defense and public-safety drone company, which means I build to compliance- and security-grade standards by default — because in that world, “probably fine” isn’t a spec.</p>
+          <p>The pitch is simple: competence and privacy. I won’t sell you hype, and I won’t sell you a system you don’t need.</p>
+        </div>
+      </div>
+      <figure class="headshot">
+        <!-- [HEADSHOT PLACEHOLDER] — replace assets/headshot.svg with a real photo (assets/headshot.jpg) and update this <img>. -->
+        <img src="assets/headshot.svg" alt="Portrait of [YOUR NAME], founder of [COMPANY NAME]" width="400" height="480" loading="lazy">
+        <figcaption class="schem-caption">[YOUR NAME] — FOUNDER &amp; ENGINEER</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ 06 PRICING ============ -->
+  <section class="section" id="pricing">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow"><span class="tick" aria-hidden="true"></span>05 / ENGAGEMENT MODELS</p>
+        <h2>Three ways to work together</h2>
+        <p class="section-sub">Every engagement is scoped and quoted up front. No subscriptions required — when the build is done, the system is yours.</p>
+      </header>
+      <div class="tier-grid">
+        <article class="tier">
+          <p class="module-label">TIER 1</p>
+          <h3>Starter</h3>
+          <p class="tier-for">For an individual or solo professional.</p>
+          <ul>
+            <li>Single-workstation setup with a capable local model</li>
+            <li>Private chat, document Q&amp;A, and writing assistance</li>
+            <li>Hardware spec’d to your budget — or installed on a machine you already own</li>
+            <li>Hands-on orientation session</li>
+          </ul>
+          <a class="btn btn-ghost tier-cta" href="#contact">Get a quote</a>
+        </article>
+        <article class="tier tier-featured">
+          <p class="module-label">TIER 2</p>
+          <h3>Business</h3>
+          <p class="tier-for">For teams and practices.</p>
+          <ul>
+            <li>Multi-user server deployment on your network</li>
+            <li>Document intelligence across your shared archives</li>
+            <li>Integration with your existing workflows and tools</li>
+            <li>Team training and a support plan option</li>
+          </ul>
+          <a class="btn tier-cta" href="#contact">Get a quote</a>
+        </article>
+        <article class="tier">
+          <p class="module-label">TIER 3</p>
+          <h3>Custom</h3>
+          <p class="tier-for">For specialized or large-scale needs.</p>
+          <ul>
+            <li>Fine-tuned models on your domain data</li>
+            <li>Complex integrations and multi-site deployments</li>
+            <li>Custom applications: vision, audio, automation</li>
+            <li>Ongoing retainer for continuous improvement</li>
+          </ul>
+          <a class="btn btn-ghost tier-cta" href="#contact">Get a quote</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 07 FAQ ============ -->
+  <section class="section" id="faq">
+    <div class="container container-narrow">
+      <header class="section-head">
+        <p class="eyebrow"><span class="tick" aria-hidden="true"></span>06 / FAQ</p>
+        <h2>Questions people actually ask</h2>
+      </header>
+
+      <details class="faq-item">
+        <summary>How good are local models compared to ChatGPT?</summary>
+        <p>Closer than most people expect. For the work this site describes — document Q&amp;A, drafting, summarization, transcription, structured data tasks — today’s open models are excellent, and a system tuned to <em>your</em> documents and voice often beats a general cloud model at your specific job. The very largest cloud models still lead on the hardest open-ended reasoning. If your workload is in that category, I’ll tell you in the first call.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>What hardware do I need? Do you supply it?</summary>
+        <p>Either works. I can build and deliver a machine spec’d for your workload — from a quiet desktop for one person to a rack server for a whole practice — or deploy onto capable hardware you already own. A useful single-user system starts at roughly the cost of a high-end workstation; I’ll give you exact numbers in the proposal.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>What does it cost?</summary>
+        <p>It depends on scope, which is why every engagement starts with a free consultation and ends step one with a written, fixed quote. The structure is always the same: a one-time build cost (hardware plus my engineering), and an optional ongoing support plan. There are no per-user or per-token fees, ever.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Can it work fully offline?</summary>
+        <p>Yes — that’s the point. Once deployed, the system needs no internet connection to run. Models, search indexes, and your data all live on your hardware. Some clients keep their AI server on an isolated network segment with no outbound route at all.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>What about updates as models improve?</summary>
+        <p>The field moves fast, and your system shouldn’t fossilize. Support plans include periodic model upgrades: I test new open models against your actual workload and roll them in when they’re a clear win. Because you own the hardware, an upgrade is a software change — not a new subscription tier.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Is my data really private?</summary>
+        <p>Yes, verifiably. The system runs on your hardware inside your network, and you (or your IT contractor) can confirm with standard network monitoring that nothing leaves. I’ll happily walk your compliance or security reviewer through the architecture. Even this website makes zero external requests — there’s a live counter in the footer.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>How long does setup take?</summary>
+        <p>A single-workstation Starter setup is typically up within 1–2 weeks of the proposal being signed. Business deployments with document indexing and workflow integration usually run 3–6 weeks depending on scope. Custom work is quoted with its own timeline.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ============ 08 CONTACT ============ -->
+  <section class="section" id="contact">
+    <div class="container container-narrow">
+      <header class="section-head">
+        <p class="eyebrow"><span class="tick" aria-hidden="true"></span>07 / CONTACT</p>
+        <h2>Book a free consultation</h2>
+        <p class="section-sub">Tell me what you’d like to automate or what’s eating your team’s time. I’ll reply within one business day with an honest read on whether local AI fits.</p>
+      </header>
+
+      <form class="contact-form" action="https://formspree.io/f/[FORMSPREE_ID]" method="POST">
+        <div class="form-row">
+          <div class="field">
+            <label for="f-name">Name</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="f-email">Email</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-company">Company <span class="opt">(optional)</span></label>
+          <input id="f-company" name="company" type="text" autocomplete="organization">
+        </div>
+        <div class="field">
+          <label for="f-message">What would you like to automate?</label>
+          <textarea id="f-message" name="message" rows="5" required placeholder="e.g., We’re a 12-person law firm and want to search 20 years of case files without uploading them anywhere."></textarea>
+        </div>
+        <p class="form-status" role="status" aria-live="polite" hidden></p>
+        <div class="cta-row">
+          <button class="btn" type="submit">Send inquiry</button>
+          <a class="btn btn-ghost" href="[CALENDLY LINK]">Or pick a time directly</a>
+        </div>
+        <p class="form-privacy">Submitting this form sends only what you typed, to me. Prefer email? <a href="mailto:[YOUR@EMAIL]">[YOUR@EMAIL]</a></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <p class="brand-foot">[COMPANY NAME]</p>
+      <p class="footer-meta">[CITY, STATE] · <a href="mailto:[YOUR@EMAIL]">[YOUR@EMAIL]</a></p>
+    </div>
+    <div class="footer-badge" id="request-badge">
+      <p class="badge-line"><span class="led led-live" aria-hidden="true"></span>EXTERNAL REQUESTS MADE BY THIS PAGE: <span id="ext-count">—</span></p>
+      <p class="badge-sub">Measured live in your browser. This site sets no cookies and runs no tracking or analytics scripts.</p>
+    </div>
+  </div>
+  <div class="container footer-legal">
+    <p>© <span id="year">2026</span> [COMPANY NAME]. Practice what you preach: every font, image, and script on this page is served from this site’s own domain.</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
