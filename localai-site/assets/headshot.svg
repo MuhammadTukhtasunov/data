@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480">
+  <rect width="400" height="480" fill="#161C24"/>
+  <g fill="none" stroke="#2A323D" stroke-width="1">
+    <path d="M100 0v480M200 0v480M300 0v480M0 120h400M0 240h400M0 360h400"/>
+  </g>
+  <g fill="none" stroke="#97A1AD" stroke-width="2">
+    <circle cx="200" cy="190" r="58"/>
+    <path d="M96 420c10-72 52-110 104-110s94 38 104 110"/>
+  </g>
+  <text x="200" y="450" text-anchor="middle" fill="#97A1AD"
+        font-family="IBM Plex Mono, monospace" font-size="14" letter-spacing="2">
+    [HEADSHOT PLACEHOLDER]
+  </text>
+</svg>

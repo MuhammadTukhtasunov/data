@@ -1,0 +1,38 @@
+name: Deploy site to GitHub Pages
+
+# Runs only when triggered by hand (Actions tab -> "Run workflow").
+# It will succeed only after GitHub Pages is enabled once in
+# Settings -> Pages -> Source: "GitHub Actions". Until then it has
+# nothing to deploy to, so it does not run automatically on push.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: localai-site
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
