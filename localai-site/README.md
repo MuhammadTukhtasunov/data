@@ -26,8 +26,21 @@ The whole site is this directory. Upload it anywhere that serves static files.
 **Netlify** — drag the `localai-site` folder onto app.netlify.com/drop, or
 connect the repo with publish directory `localai-site` and no build command.
 
-**GitHub Pages** — in repo settings, enable Pages from the branch and set the
-folder, or copy these files to the root of a `gh-pages` branch.
+**GitHub Pages (one-time enable required).** A deploy workflow is included at
+`.github/workflows/deploy-pages.yml`, but a workflow cannot turn Pages on for
+the first time — that is a manual switch only a repo admin can flip:
+
+1. Go to **Settings → Pages** (`https://github.com/<owner>/<repo>/settings/pages`).
+2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+3. Run the workflow: **Actions → "Deploy site to GitHub Pages" → Run workflow**
+   (it is manual-only so it never fails on routine pushes before Pages exists).
+
+The site then publishes at `https://<owner>.github.io/<repo>/`. Until step 1 is
+done, the workflow fails with `Create Pages site failed: Resource not accessible
+by integration` — that error means only "Pages isn't enabled yet," nothing else.
+
+**Fastest with no settings — Netlify Drop.** Drag the `localai-site` folder onto
+`https://app.netlify.com/drop` for an instant public URL, no account config.
 
 ## Placeholders to fill in before launch
 
