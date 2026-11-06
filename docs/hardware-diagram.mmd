@@ -34,6 +34,7 @@ flowchart TB
     %% ---------- Companion computer ----------
     JETSON{{"Jetson"}}
     LTE["4G LTE"]
+    GIMBAL["Gimbal servo"]
 
     %% ---------- Proximity sensing ----------
     subgraph PROX["Proximity sensing"]
@@ -49,13 +50,15 @@ flowchart TB
     subgraph FLIGHT["Flight stack"]
         direction TB
         FC{{"Flight Controller"}}
-        RX["Radio receiver"]
+        RCAM["Radio camera"]
+        RTR["Radio transmission receiver"]
         GPS["GPS"]
         VTX["Radio VTX"]
         ESC["ESC"]
-        RX -- "Pin connector" --> FC
+        RCAM -- "Pin connector" --> FC
+        FC <--> RTR
         GPS --> FC
-        FC <--> VTX
+        FC --> VTX
         FC --> ESC
     end
 
@@ -68,7 +71,8 @@ flowchart TB
     HEAT -- "USB-C" --> JETSON
     LBOARD -- "USB-A" --> JETSON
     JETSON -- "USB-A" --> TEENSY
-    JETSON --> LTE
+    JETSON <--> LTE
+    JETSON --> GIMBAL
     JETSON <-- "USB-A" --> FC
 
     %% ---------- Styling ----------

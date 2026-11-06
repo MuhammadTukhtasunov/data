@@ -48,6 +48,7 @@ flowchart TB
     %% ---------- Companion computer ----------
     JETSON{{"Jetson"}}
     LTE["4G LTE"]
+    GIMBAL["Gimbal servo"]
 
     %% ---------- Proximity sensing ----------
     subgraph PROX["Proximity sensing"]
@@ -63,13 +64,15 @@ flowchart TB
     subgraph FLIGHT["Flight stack"]
         direction TB
         FC{{"Flight Controller"}}
-        RX["Radio receiver"]
+        RCAM["Radio camera"]
+        RTR["Radio transmission receiver"]
         GPS["GPS"]
         VTX["Radio VTX"]
         ESC["ESC"]
-        RX -- "Pin connector" --> FC
+        RCAM -- "Pin connector" --> FC
+        FC <--> RTR
         GPS --> FC
-        FC <--> VTX
+        FC --> VTX
         FC --> ESC
     end
 
@@ -82,7 +85,8 @@ flowchart TB
     HEAT -- "USB-C" --> JETSON
     LBOARD -- "USB-A" --> JETSON
     JETSON -- "USB-A" --> TEENSY
-    JETSON --> LTE
+    JETSON <--> LTE
+    JETSON --> GIMBAL
     JETSON <-- "USB-A" --> FC
 
     %% ---------- Styling ----------
@@ -111,11 +115,13 @@ flowchart TB
 | Lidar board | Jetson | USB-A | |
 | Jetson | Teensy | USB-A | |
 | Teensy | 4x Rangefinders, 4x Echo | UART | |
-| Jetson | 4G LTE | — | Interface not labeled in the sketch |
+| Jetson | 4G LTE | — | Bidirectional; interface not labeled in the sketch |
+| Jetson | Gimbal servo | — | Interface not labeled in the sketch |
 | Jetson | Flight Controller | USB-A | Bidirectional |
-| Radio receiver | Flight Controller | Pin connector | |
+| Radio camera | Flight Controller | Pin connector | |
+| Radio transmission receiver | Flight Controller | — | Bidirectional |
 | GPS | Flight Controller | — | |
-| Flight Controller | Radio VTX | — | Bidirectional |
+| Flight Controller | Radio VTX | — | One-way, out of the FC |
 | Flight Controller | ESC | — | |
 
 ## Regenerating the images
