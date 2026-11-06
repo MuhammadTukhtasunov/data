@@ -1,0 +1,41 @@
+%%{init: {"theme": "base", "fontFamily": "Inter, Arial, Helvetica, sans-serif", "themeVariables": {"fontFamily": "Inter, Arial, Helvetica, sans-serif", "fontSize": "14px", "primaryColor": "#ffffff", "primaryBorderColor": "#5b6b7c", "primaryTextColor": "#1d2733", "lineColor": "#5b6b7c", "clusterBkg": "#f6f8fb", "clusterBorder": "#c3ccd6", "edgeLabelBackground": "#ffffff"}, "flowchart": {"curve": "basis", "nodeSpacing": 30, "rankSpacing": 70, "padding": 12}} }%%
+flowchart LR
+
+    BATT["Battery<br/>6S LiPo · 18–25.2 V"]:::cots
+    PDB["<b>PDB</b><br/>Power Distribution Board"]:::custom
+    ESC["4-in-1 ESC<br/>(+ FC / VTX via ESC BEC)"]:::cots
+    MOT["4× Motors"]:::cots
+    JET["<b>Jetson Orin Nano</b><br/>≤ 25 W"]:::core
+    LGT["<b>LGT</b><br/>Lighting Driver Board"]:::custom
+    FLASH["Flashlight LED ≈ 10 W"]:::cots
+    IRL["IR LED ≈ 10 W"]:::cots
+    HAT["<b>HAT</b><br/>amp + buffers"]:::custom
+    SPK["Speaker ≤ 3.2 W"]:::cots
+    GIM["Gimbal servo<br/>stall ≈ 2 A"]:::cots
+    SNS["<b>SNS</b><br/>Teensy + 8 sensors"]:::custom
+    USBH["Powered USB hub<br/>mic · lidar"]:::cots
+    JUSB["Jetson USB ports<br/>FC · thermal · 4G"]:::cots
+    BATT -->|"VBAT · XT60"| PDB
+    PDB -->|"PWR_VBAT · XT60"| ESC
+    ESC -->|"3-phase"| MOT
+    PDB -->|"PWR_VBAT_LGT · fused 3 A"| LGT
+    LGT -->|"CC"| FLASH
+    LGT -->|"CC"| IRL
+    PDB -->|"PWR_19V_JET · 60 W"| JET
+    JET -->|"USB 5 V"| JUSB
+    PDB -->|"PWR_5V_AUX"| HAT
+    HAT -->|"class-D"| SPK
+    PDB -->|"PWR_5V_SERVO · 3 A"| HAT
+    HAT -->|"PWR_5V_SERVO"| GIM
+    PDB -->|"PWR_5V_AUX"| SNS
+    PDB -->|"PWR_5V_AUX"| USBH
+
+    classDef cots fill:#eef1f5,stroke:#8a97a6,color:#1d2733
+    classDef custom fill:#dbeafe,stroke:#1d4ed8,stroke-width:2px,color:#0b2a6b
+    classDef core fill:#1f3b57,stroke:#0f2233,color:#ffffff
+    classDef ic fill:#ffffff,stroke:#334155,stroke-width:1.5px,color:#0f172a
+    classDef conn fill:#fff8e1,stroke:#b7950b,color:#4a3b00
+    classDef hdr fill:#ede9fe,stroke:#6d28d9,color:#2e1065
+    classDef passive fill:#f8fafc,stroke:#94a3b8,stroke-dasharray:4 3,color:#334155
+    classDef ext fill:#eef1f5,stroke:#8a97a6,stroke-dasharray:4 3,color:#475569
+    linkStyle 0,1,2,3,4,5,6,7,8,9,10,11,12,13 stroke:#d62728,stroke-width:3px
