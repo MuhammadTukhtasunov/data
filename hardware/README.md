@@ -13,6 +13,18 @@ block. Nothing is routed yet.
 | Lighting Driver Board | [`lgt/`](lgt) | [PDF](exports/lgt-schematic.pdf) (A3) | 60 × 45 mm, 2 layers · [PDF](exports/lgt-pcb.pdf) | 35 | 0 DRC violations, 64 unrouted connections |
 | Sensor Hub | [`sns/`](sns) | [PDF](exports/sns-schematic.pdf) (A2) | 90 × 60 mm, 2 layers · [PDF](exports/sns-pcb.pdf) | 47 | 0 DRC violations, 105 unrouted connections |
 
+## Previews
+
+| Board | PCB (placement, unrouted) | Schematic |
+|-------|---------------------------|-----------|
+| PDB | ![PDB PCB](exports/pdb-pcb.png) | ![PDB schematic](exports/pdb-schematic.png) |
+| HAT | ![HAT PCB](exports/hat-pcb.png) | ![HAT schematic](exports/hat-schematic.png) |
+| LGT | ![LGT PCB](exports/lgt-pcb.png) | ![LGT schematic](exports/lgt-schematic.png) |
+| SNS | ![SNS PCB](exports/sns-pcb.png) | ![SNS schematic](exports/sns-schematic.png) |
+
+In the PCB images, blue is the ground fill, pink is pads and yellow is
+silkscreen. Parts to the right of an outline are staged and still need placing.
+
 Open the `.kicad_pro` file in **KiCad 7 or newer**. KiCad 8 and 9 upgrade the
 files the first time you save.
 
