@@ -7,6 +7,7 @@ central companion computer; the **Flight Controller** runs the flight stack.
 
 - Mermaid source: [`hardware-diagram.mmd`](hardware-diagram.mmd)
 - Vector export: [`hardware-diagram.svg`](hardware-diagram.svg)
+- Electrical & logic design for the custom boards: [`electrical/README.md`](electrical/README.md)
 
 <details>
 <summary>Live Mermaid version (renders on GitHub)</summary>

@@ -1,0 +1,58 @@
+%%{init: {"theme": "base", "fontFamily": "Inter, Arial, Helvetica, sans-serif", "themeVariables": {"fontFamily": "Inter, Arial, Helvetica, sans-serif", "fontSize": "14px", "primaryColor": "#ffffff", "primaryBorderColor": "#5b6b7c", "primaryTextColor": "#1d2733", "lineColor": "#5b6b7c", "clusterBkg": "#f6f8fb", "clusterBorder": "#c3ccd6", "edgeLabelBackground": "#ffffff"}, "flowchart": {"curve": "basis", "nodeSpacing": 30, "rankSpacing": 70, "padding": 12}} }%%
+flowchart LR
+
+    BATT["Battery 6S LiPo<br/>18.0–25.2 V"]:::ext
+    subgraph PDBB["PDB — Power Distribution Board"]
+        direction LR
+        J1["J1 BATT_IN<br/>XT60PW-M"]:::conn
+        PROT["Input protection<br/>D1 TVS SMBJ28A<br/>C1–C2 470 µF / 50 V low-ESR"]:::passive
+        SH["R1 shunt 0.25 mΩ<br/>4-terminal, ≥ 5 W"]:::passive
+        BUS(("PWR_VBAT<br/>bus"))
+        U1["U1 INA240A3<br/>current-sense amp ×100<br/>25 mV/A"]:::ic
+        DIV["R2/R3 100k / 10k<br/>VBAT divider ÷11"]:::passive
+        F1["F1 3 A fuse"]:::passive
+        U2["U2 buck-boost ctrl<br/>LM5176-class<br/>19 V / 3.2 A (60 W)"]:::ic
+        U3["U3 sync buck<br/>TPS54560-class<br/>5 V / 5 A"]:::ic
+        U4["U4 sync buck<br/>TPS54560-class<br/>5 V / 3 A"]:::ic
+        U5["U5 LDO 3.3 V<br/>AP2112K-3.3"]:::ic
+        J2["J2 ESC_OUT · XT60PW-M<br/>→ 4-in-1 ESC"]:::conn
+        J3["J3 LGT_PWR · XT30PW-M<br/>→ LGT J1"]:::conn
+        J4["J4 JET_PWR · Micro-Fit 2p<br/>→ Jetson DC jack"]:::conn
+        J5["J5 HAT_5V · Micro-Fit 2p<br/>→ HAT J2"]:::conn
+        J6["J6 SNS_5V · Micro-Fit 2p<br/>→ SNS J1"]:::conn
+        J7["J7 USBHUB_5V · Micro-Fit 2p<br/>→ USB hub DC in"]:::conn
+        J8["J8 SERVO_5V · Micro-Fit 2p<br/>→ HAT J3"]:::conn
+        J9["J9 FC_SNS · JST-GH 4p<br/>→ FC CURR / VBAT pads"]:::conn
+    end
+    BATT -->|"VBAT_RAW"| J1
+    J1 --> PROT
+    PROT --> SH
+    SH --> BUS
+    SH -.->|"Kelvin sense"| U1
+    BUS -->|"PWR_VBAT (motors)"| J2
+    BUS --> F1
+    F1 -->|"PWR_VBAT_LGT"| J3
+    BUS --> U2
+    U2 -->|"PWR_19V_JET"| J4
+    BUS --> U3
+    U3 -->|"PWR_5V_AUX"| J5
+    U3 -->|"PWR_5V_AUX"| J6
+    U3 -->|"PWR_5V_AUX"| J7
+    U3 --> U5
+    U5 -->|"3V3_SNS"| U1
+    BUS --> U4
+    U4 -->|"PWR_5V_SERVO"| J8
+    BUS --> DIV
+    U1 -->|"FC_CURR_SNS"| J9
+    DIV -->|"FC_VBAT_SNS"| J9
+
+    classDef cots fill:#eef1f5,stroke:#8a97a6,color:#1d2733
+    classDef custom fill:#dbeafe,stroke:#1d4ed8,stroke-width:2px,color:#0b2a6b
+    classDef core fill:#1f3b57,stroke:#0f2233,color:#ffffff
+    classDef ic fill:#ffffff,stroke:#334155,stroke-width:1.5px,color:#0f172a
+    classDef conn fill:#fff8e1,stroke:#b7950b,color:#4a3b00
+    classDef hdr fill:#ede9fe,stroke:#6d28d9,color:#2e1065
+    classDef passive fill:#f8fafc,stroke:#94a3b8,stroke-dasharray:4 3,color:#334155
+    classDef ext fill:#eef1f5,stroke:#8a97a6,stroke-dasharray:4 3,color:#475569
+    linkStyle 0,1,2,3,5,6,7,8,9,10,11,12,13,14,15,16,17 stroke:#d62728,stroke-width:3px
+    linkStyle 4,18,19,20 stroke:#8c564b,stroke-width:2px

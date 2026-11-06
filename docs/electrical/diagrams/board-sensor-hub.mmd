@@ -1,0 +1,67 @@
+%%{init: {"theme": "base", "fontFamily": "Inter, Arial, Helvetica, sans-serif", "themeVariables": {"fontFamily": "Inter, Arial, Helvetica, sans-serif", "fontSize": "14px", "primaryColor": "#ffffff", "primaryBorderColor": "#5b6b7c", "primaryTextColor": "#1d2733", "lineColor": "#5b6b7c", "clusterBkg": "#f6f8fb", "clusterBorder": "#c3ccd6", "edgeLabelBackground": "#ffffff"}, "flowchart": {"curve": "basis", "nodeSpacing": 30, "rankSpacing": 70, "padding": 12}} }%%
+flowchart TB
+
+    subgraph BOARD["SNS — Sensor Hub · board level"]
+        direction LR
+        PDB["PDB J6<br/>PWR_5V_AUX"]:::ext
+        J1["J1 5V_IN<br/>Micro-Fit 2p"]:::conn
+        T41["U1 Teensy 4.1<br/>IMXRT1062 · 3.3 V I/O<br/>pins NOT 5 V tolerant<br/>VUSB–VIN trace CUT"]:::ic
+        BUF["U2, U3 74LVC125A<br/>VCC 3.3 V · inputs 5 V-tolerant<br/>OE# tied to GND"]:::ic
+        USBH["Powered USB hub<br/>→ Jetson"]:::ext
+        J10["J10 EXP 1×6 2.54<br/>3V3 · GND · SDA 18 · SCL 19<br/>GPIO 2 · GPIO 3"]:::conn
+        PTC["F1–F8 PTC fuses<br/>~300 mA hold"]:::passive
+        PORTS["J2–J5 RANGE1–4<br/>J6–J9 ECHO1–4<br/>JST-GH 4p"]:::conn
+    end
+    subgraph PORT["One sensor port · repeated ×8 (n = 1…8, see port map)"]
+        direction LR
+        TXP["U1 Teensy<br/>TXn pin (3.3 V)"]:::ic
+        RTX["R 220 Ω<br/>series"]:::passive
+        JTX["Jn pin 2<br/>SENSn_TX"]:::conn
+        SRX["Sensor RX in"]:::ext
+        STX["Sensor TX out<br/>(3.3 V or 5 V)"]:::ext
+        JRX["Jn pin 3<br/>SENSn_RX"]:::conn
+        PU["R 47k pull-up<br/>to 3V3"]:::passive
+        BCH["74LVC125A channel<br/>5 V in → 3.3 V out"]:::ic
+        RXP["U1 Teensy<br/>RXn pin"]:::ic
+        V5["PWR_5V_AUX"]:::ext
+        FN["Fn PTC"]:::passive
+        JV["Jn pin 1<br/>SENSn_5V"]:::conn
+        SV["Sensor VCC"]:::ext
+        JG["Jn pin 4<br/>GND"]:::conn
+        SG["Sensor GND"]:::ext
+    end
+    PDB --> J1
+    J1 -->|"PWR_5V_AUX → VIN"| T41
+    J1 -->|"PWR_5V_AUX"| PTC
+    PTC -->|"SENS1–8_5V"| PORTS
+    T41 -->|"3V3"| BUF
+    T41 -->|"TX1–TX8 via 220 Ω"| PORTS
+    BUF -->|"RX1–RX8"| T41
+    PORTS -->|"SENS1–8_RX"| BUF
+    T41 <-->|"USB micro-B"| USBH
+    T41 <-->|"I2C + GPIO"| J10
+    TXP --> RTX
+    RTX --> JTX
+    JTX --> SRX
+    STX --> JRX
+    JRX -->|"nA"| BCH
+    PU --- BCH
+    BCH -->|"nY"| RXP
+    V5 --> FN
+    FN --> JV
+    JV --> SV
+    JG --- SG
+    BOARD ~~~ PORT
+
+    classDef cots fill:#eef1f5,stroke:#8a97a6,color:#1d2733
+    classDef custom fill:#dbeafe,stroke:#1d4ed8,stroke-width:2px,color:#0b2a6b
+    classDef core fill:#1f3b57,stroke:#0f2233,color:#ffffff
+    classDef ic fill:#ffffff,stroke:#334155,stroke-width:1.5px,color:#0f172a
+    classDef conn fill:#fff8e1,stroke:#b7950b,color:#4a3b00
+    classDef hdr fill:#ede9fe,stroke:#6d28d9,color:#2e1065
+    classDef passive fill:#f8fafc,stroke:#94a3b8,stroke-dasharray:4 3,color:#334155
+    classDef ext fill:#eef1f5,stroke:#8a97a6,stroke-dasharray:4 3,color:#475569
+    linkStyle 0,1,2,3,4,17,18,19 stroke:#d62728,stroke-width:3px
+    linkStyle 5,6,7,10,11,12,13,14,16 stroke:#2ca02c,stroke-width:2px
+    linkStyle 8 stroke:#1f77b4,stroke-width:2px
+    linkStyle 9 stroke:#b8860b,stroke-width:2px

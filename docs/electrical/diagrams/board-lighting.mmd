@@ -1,0 +1,48 @@
+%%{init: {"theme": "base", "fontFamily": "Inter, Arial, Helvetica, sans-serif", "themeVariables": {"fontFamily": "Inter, Arial, Helvetica, sans-serif", "fontSize": "14px", "primaryColor": "#ffffff", "primaryBorderColor": "#5b6b7c", "primaryTextColor": "#1d2733", "lineColor": "#5b6b7c", "clusterBkg": "#f6f8fb", "clusterBorder": "#c3ccd6", "edgeLabelBackground": "#ffffff"}, "flowchart": {"curve": "basis", "nodeSpacing": 30, "rankSpacing": 70, "padding": 12}} }%%
+flowchart LR
+
+    PDB["PDB J3<br/>PWR_VBAT_LGT"]:::ext
+    HAT["HAT J6<br/>LIGHT_CTRL"]:::ext
+    subgraph LGTB["LGT — Lighting Driver Board"]
+        direction LR
+        J1["J1 LGT_PWR<br/>XT30PW-M"]:::conn
+        J2["J2 LIGHT_CTRL<br/>JST-GH 4p"]:::conn
+        CIN["Input filter<br/>bulk + ceramic caps<br/>TVS"]:::passive
+        RC["Per PWM input:<br/>100 Ω series · 10k pull-down<br/>ESD diode"]:::passive
+        U1["U1 constant-current<br/>buck LED driver ≥ 40 V<br/>CH1 · white"]:::ic
+        U2["U2 constant-current<br/>buck LED driver ≥ 40 V<br/>CH2 · IR"]:::ic
+        RS1["R_SENSE1<br/>sets I_FLASH"]:::passive
+        RS2["R_SENSE2<br/>sets I_IR"]:::passive
+        J3["J3 FLASH_LED<br/>JST-XH 4p"]:::conn
+        J4["J4 IR_LED<br/>JST-XH 4p"]:::conn
+    end
+    FL["Flashlight LED<br/>+ NTC on heatsink"]:::ext
+    IR["IR LED 850 nm<br/>+ NTC on heatsink"]:::ext
+    PDB --> J1
+    J1 -->|"PWR_VBAT_LGT"| CIN
+    CIN -->|"VIN"| U1
+    CIN -->|"VIN"| U2
+    HAT --> J2
+    J2 -->|"PWM_FLASH · PWM_IR"| RC
+    RC -->|"DIM (PWM_FLASH)"| U1
+    RC -->|"DIM (PWM_IR)"| U2
+    U1 --- RS1
+    U2 --- RS2
+    U1 -->|"LED_FLASH_P / N"| J3
+    U2 -->|"LED_IR_P / N"| J4
+    J3 --> FL
+    J4 --> IR
+    J3 -.->|"NTC_FLASH (thermal derate)"| U1
+    J4 -.->|"NTC_IR (thermal derate)"| U2
+
+    classDef cots fill:#eef1f5,stroke:#8a97a6,color:#1d2733
+    classDef custom fill:#dbeafe,stroke:#1d4ed8,stroke-width:2px,color:#0b2a6b
+    classDef core fill:#1f3b57,stroke:#0f2233,color:#ffffff
+    classDef ic fill:#ffffff,stroke:#334155,stroke-width:1.5px,color:#0f172a
+    classDef conn fill:#fff8e1,stroke:#b7950b,color:#4a3b00
+    classDef hdr fill:#ede9fe,stroke:#6d28d9,color:#2e1065
+    classDef passive fill:#f8fafc,stroke:#94a3b8,stroke-dasharray:4 3,color:#334155
+    classDef ext fill:#eef1f5,stroke:#8a97a6,stroke-dasharray:4 3,color:#475569
+    linkStyle 0,1,2,3,10,11,12,13 stroke:#d62728,stroke-width:3px
+    linkStyle 4,5,6,7 stroke:#9467bd,stroke-width:2px
+    linkStyle 8,9,14,15 stroke:#8c564b,stroke-width:2px

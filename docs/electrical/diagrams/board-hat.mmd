@@ -1,0 +1,64 @@
+%%{init: {"theme": "base", "fontFamily": "Inter, Arial, Helvetica, sans-serif", "themeVariables": {"fontFamily": "Inter, Arial, Helvetica, sans-serif", "fontSize": "14px", "primaryColor": "#ffffff", "primaryBorderColor": "#5b6b7c", "primaryTextColor": "#1d2733", "lineColor": "#5b6b7c", "clusterBkg": "#f6f8fb", "clusterBorder": "#c3ccd6", "edgeLabelBackground": "#ffffff"}, "flowchart": {"curve": "basis", "nodeSpacing": 30, "rankSpacing": 70, "padding": 12}} }%%
+flowchart LR
+
+    subgraph HDR["J1 · Jetson 40-pin header (3.3 V logic)"]
+        direction TB
+        P_I2S["pins 12 / 35 / 40<br/>I2S SCLK / FS / DOUT"]:::hdr
+        P_AMP["pin 29 · GPIO01"]:::hdr
+        P_PWM["pins 15 / 32 / 33<br/>PWM"]:::hdr
+        P_SP["pin 7 · GPIO09"]:::hdr
+        P_EN["pin 31 · GPIO11"]:::hdr
+        P_I2C["pins 3 / 5<br/>I2C SDA / SCL"]:::hdr
+        P_UART["pins 8 / 10<br/>UART TXD / RXD"]:::hdr
+        P_NC["pins 2 / 4 · 5 V<br/>NOT CONNECTED"]:::passive
+    end
+    subgraph HATB["HAT — Jetson I/O HAT"]
+        direction LR
+        RSD["R_SD<br/>SD_MODE resistor"]:::passive
+        U1["U1 MAX98357A<br/>I2S class-D amp 3.2 W"]:::ic
+        RPD["R 100k pull-downs<br/>on U2 inputs"]:::passive
+        Q1["Q1 2N7002<br/>gate 100k to GND<br/>drain 10k to 5V_AUX"]:::ic
+        U2["U2 74AHCT125<br/>quad buffer, VCC 5 V<br/>3.3 → 5 V, OE# per ch."]:::ic
+        ROUT["R 100 Ω series +<br/>10k pull-down per output"]:::passive
+        RS["R 100 Ω series"]:::passive
+        J2["J2 5V_AUX in<br/>Micro-Fit 2p"]:::conn
+        J3["J3 5V_SERVO in<br/>Micro-Fit 2p"]:::conn
+        J4["J4 SPEAKER<br/>JST-PH 2p"]:::conn
+        J5["J5 GIMBAL<br/>servo 3p 2.54"]:::conn
+        J6["J6 LIGHT_CTRL<br/>JST-GH 4p"]:::conn
+        J7["J7 I2C (Qwiic)<br/>JST-SH 4p"]:::conn
+        J8["J8 FC_UART (opt.)<br/>JST-GH 4p"]:::conn
+    end
+    P_I2S -->|"I2S_BCLK · I2S_LRCLK · I2S_DOUT"| U1
+    P_AMP -->|"AMP_SD"| RSD
+    RSD -->|"SD_MODE"| U1
+    U1 -->|"SPK_P / SPK_N (BTL)"| J4
+    P_PWM -->|"PWM_GIMBAL_3V3 · PWM_FLASH_3V3 · PWM_IR_3V3"| RPD
+    P_SP -->|"SPARE_3V3"| RPD
+    RPD -->|"1A–4A"| U2
+    P_EN -->|"OUT_EN"| Q1
+    Q1 -->|"OUT_EN_N → 1OE#–4OE#"| U2
+    U2 -->|"1Y–4Y (5 V)"| ROUT
+    ROUT -->|"PWM_GIMBAL"| J5
+    ROUT -->|"PWM_FLASH · PWM_IR · SPARE_OUT"| J6
+    J3 -->|"PWR_5V_SERVO"| J5
+    J2 --> U1
+    J2 -->|"PWR_5V_AUX"| U2
+    P_I2C <-->|"I2C_SDA · I2C_SCL"| J7
+    P_UART <-->|"FC_UART_TX / RX"| RS
+    RS <--> J8
+
+    classDef cots fill:#eef1f5,stroke:#8a97a6,color:#1d2733
+    classDef custom fill:#dbeafe,stroke:#1d4ed8,stroke-width:2px,color:#0b2a6b
+    classDef core fill:#1f3b57,stroke:#0f2233,color:#ffffff
+    classDef ic fill:#ffffff,stroke:#334155,stroke-width:1.5px,color:#0f172a
+    classDef conn fill:#fff8e1,stroke:#b7950b,color:#4a3b00
+    classDef hdr fill:#ede9fe,stroke:#6d28d9,color:#2e1065
+    classDef passive fill:#f8fafc,stroke:#94a3b8,stroke-dasharray:4 3,color:#334155
+    classDef ext fill:#eef1f5,stroke:#8a97a6,stroke-dasharray:4 3,color:#475569
+    linkStyle 0 stroke:#ff7f0e,stroke-width:2px
+    linkStyle 1,2,5,7,8 stroke:#555555,stroke-width:2px,stroke-dasharray:5 4
+    linkStyle 3,12,13,14 stroke:#d62728,stroke-width:3px
+    linkStyle 4,6,9,10,11 stroke:#9467bd,stroke-width:2px
+    linkStyle 15 stroke:#b8860b,stroke-width:2px
+    linkStyle 16,17 stroke:#2ca02c,stroke-width:2px

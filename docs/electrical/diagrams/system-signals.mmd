@@ -1,0 +1,68 @@
+%%{init: {"theme": "base", "fontFamily": "Inter, Arial, Helvetica, sans-serif", "themeVariables": {"fontFamily": "Inter, Arial, Helvetica, sans-serif", "fontSize": "14px", "primaryColor": "#ffffff", "primaryBorderColor": "#5b6b7c", "primaryTextColor": "#1d2733", "lineColor": "#5b6b7c", "clusterBkg": "#f6f8fb", "clusterBorder": "#c3ccd6", "edgeLabelBackground": "#ffffff"}, "flowchart": {"curve": "basis", "nodeSpacing": 30, "rankSpacing": 70, "padding": 12}} }%%
+flowchart LR
+
+    RF["4× Rangefinders"]:::cots
+    ECHO["4× Echo sensors"]:::cots
+    LIDAR["Lidar"]:::cots
+    MIC["USB microphone"]:::cots
+    HEAT["Thermal camera"]:::cots
+    RGB["RGB / Night camera"]:::cots
+    SNS["<b>SNS</b><br/>Sensor Hub · Teensy 4.1"]:::custom
+    LBRD["Lidar USB board"]:::cots
+    USBH["Powered USB hub<br/>(off-the-shelf)"]:::cots
+    JET["<b>Jetson Orin Nano</b><br/>Dev Kit"]:::core
+    LTE["4G LTE modem"]:::cots
+    HAT["<b>HAT</b><br/>Jetson I/O HAT"]:::custom
+    SPK["Speaker 4–8 Ω"]:::cots
+    GIM["Gimbal servo"]:::cots
+    LGT["<b>LGT</b><br/>Lighting Driver Board"]:::custom
+    FLASH["Flashlight LED"]:::cots
+    IRL["IR LED 850 nm"]:::cots
+    FC["<b>Flight Controller</b>"]:::core
+    RCAM["Radio camera"]:::cots
+    GPS["GPS + compass"]:::cots
+    RTR["Radio transmission<br/>receiver"]:::cots
+    VTX["Radio VTX"]:::cots
+    ESC["4-in-1 ESC"]:::cots
+    PDB["<b>PDB</b><br/>Power Distribution Board"]:::custom
+    RF <-->|"UART ×4"| SNS
+    ECHO <-->|"UART ×4"| SNS
+    LIDAR <-->|"UART"| LBRD
+    SNS <-->|"USB"| USBH
+    LBRD <-->|"USB"| USBH
+    MIC <-->|"USB"| USBH
+    USBH <-->|"USB"| JET
+    HEAT <-->|"USB-C"| JET
+    RGB -->|"CSI-2 · 22-pin FPC"| JET
+    JET <-->|"USB"| LTE
+    JET <-->|"40-pin header<br/>I2S · PWM ×3 · GPIO · I2C · UART"| HAT
+    HAT -->|"SPK± (BTL)"| SPK
+    HAT -->|"PWM 50 Hz · 5 V"| GIM
+    HAT -->|"PWM_FLASH · PWM_IR"| LGT
+    LGT -->|"constant current"| FLASH
+    LGT -->|"constant current"| IRL
+    JET <-->|"USB · MAVLink"| FC
+    HAT -.->|"UART (optional backup)"| FC
+    RCAM -->|"CVBS"| FC
+    GPS -->|"UART + I2C"| FC
+    RTR <-->|"UART · CRSF"| FC
+    PDB -->|"CURR_SNS · VBAT_SNS"| FC
+    FC -->|"DShot ×4"| ESC
+    FC -->|"CVBS + OSD"| VTX
+
+    classDef cots fill:#eef1f5,stroke:#8a97a6,color:#1d2733
+    classDef custom fill:#dbeafe,stroke:#1d4ed8,stroke-width:2px,color:#0b2a6b
+    classDef core fill:#1f3b57,stroke:#0f2233,color:#ffffff
+    classDef ic fill:#ffffff,stroke:#334155,stroke-width:1.5px,color:#0f172a
+    classDef conn fill:#fff8e1,stroke:#b7950b,color:#4a3b00
+    classDef hdr fill:#ede9fe,stroke:#6d28d9,color:#2e1065
+    classDef passive fill:#f8fafc,stroke:#94a3b8,stroke-dasharray:4 3,color:#334155
+    classDef ext fill:#eef1f5,stroke:#8a97a6,stroke-dasharray:4 3,color:#475569
+    linkStyle 0,1,2,17,19,20 stroke:#2ca02c,stroke-width:2px
+    linkStyle 3,4,5,6,7,9,16 stroke:#1f77b4,stroke-width:2px
+    linkStyle 8 stroke:#17becf,stroke-width:2px
+    linkStyle 10 stroke:#333333,stroke-width:4px
+    linkStyle 11,14,15 stroke:#d62728,stroke-width:3px
+    linkStyle 12,13,22 stroke:#9467bd,stroke-width:2px
+    linkStyle 18,23 stroke:#e377c2,stroke-width:2px
+    linkStyle 21 stroke:#8c564b,stroke-width:2px
