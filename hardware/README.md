@@ -8,10 +8,25 @@ block. Nothing is routed yet.
 
 | Board | Folder | Schematic | PCB | Parts | Check results |
 |-------|--------|-----------|-----|-------|---------------|
-| Power Distribution Board | [`pdb/`](pdb) | [PDF](exports/pdb-schematic.pdf) (A2) | 100 × 80 mm, 4 layers · [PDF](exports/pdb-pcb.pdf) | 94 | 0 DRC violations, 191 unrouted connections |
-| Jetson I/O HAT | [`hat/`](hat) | [PDF](exports/hat-schematic.pdf) (A3) | 65 × 56.5 mm, 2 layers · [PDF](exports/hat-pcb.pdf) | 38 | 0 DRC violations, 80 unrouted connections |
-| Lighting Driver Board | [`lgt/`](lgt) | [PDF](exports/lgt-schematic.pdf) (A3) | 60 × 45 mm, 2 layers · [PDF](exports/lgt-pcb.pdf) | 35 | 0 DRC violations, 64 unrouted connections |
-| Sensor Hub | [`sns/`](sns) | [PDF](exports/sns-schematic.pdf) (A2) | 90 × 60 mm, 2 layers · [PDF](exports/sns-pcb.pdf) | 47 | 0 DRC violations, 105 unrouted connections |
+| Power Distribution Board | [`pdb/`](pdb) | [PDF](exports/pdb-schematic.pdf) (A2) | 100 × 80 mm, 4 layers · [PDF](exports/pdb-pcb.pdf) | 94 | 0 DRC violations, 189 unrouted connections |
+| Jetson I/O HAT | [`hat/`](hat) | [PDF](exports/hat-schematic.pdf) (A3) | 65 × 56.5 mm, 2 layers · [PDF](exports/hat-pcb.pdf) | 38 | 0 DRC violations, 79 unrouted connections |
+| Lighting Driver Board | [`lgt/`](lgt) | [PDF](exports/lgt-schematic.pdf) (A3) | 70 × 50 mm, 2 layers · [PDF](exports/lgt-pcb.pdf) | 35 | 0 DRC violations, 62 unrouted connections |
+| Sensor Hub | [`sns/`](sns) | [PDF](exports/sns-schematic.pdf) (A2) | 90 × 60 mm, 2 layers · [PDF](exports/sns-pcb.pdf) | 47 | 0 DRC violations, 104 unrouted connections |
+
+## 3D
+
+| PDB | HAT |
+|-----|-----|
+| ![PDB 3D](exports/pdb-3d-iso.png) | ![HAT 3D](exports/hat-3d-iso.png) |
+| **LGT** | **SNS** |
+| ![LGT 3D](exports/lgt-3d-iso.png) | ![SNS 3D](exports/sns-3d-iso.png) |
+
+Exported from KiCad with its 3D model library by
+[`tools/export_3d.py`](tools/export_3d.py); top views are in `exports/*-3d-top.png`.
+KiCad 7's library has no models for the XT60/XT30, Micro-Fit and JST-SH
+connectors or the BVR shunt, so those show as plain boxes sized from their
+footprints; a few chips and inductors use the closest library model. The board
+files keep their original model references. In KiCad, open *View → 3D Viewer*.
 
 ## Previews
 
@@ -23,7 +38,8 @@ block. Nothing is routed yet.
 | SNS | ![SNS PCB](exports/sns-pcb.png) | ![SNS schematic](exports/sns-schematic.png) |
 
 In the PCB images, blue is the ground fill, pink is pads and yellow is
-silkscreen. Parts to the right of an outline are staged and still need placing.
+silkscreen. Every part sits inside its outline as a starting arrangement, grouped
+by circuit block; expect to rearrange them for routing.
 
 Open the `.kicad_pro` file in **KiCad 7 or newer**. KiCad 8 and 9 upgrade the
 files the first time you save.
@@ -39,9 +55,8 @@ files the first time you save.
   `kicad-cli`): each pin is on the net the design intends, and no net has a
   single connection.
 - **PCBs** were built from that netlist, so *Update PCB from Schematic* starts
-  in sync. Each schematic block is a PCB group, so you can move it as a unit.
-  Groups that don't fit inside the outline are staged to the right of the
-  board.
+  in sync. Every part is packed inside the outline, and each schematic block
+  is a PCB group so you can select its parts together.
 - **Net classes** (in each `.kicad_pro`):
   - `HighCurrent`: 3 mm track, for `PWR_VBAT` and `VBAT_RAW`.
   - `Power`: 1 mm track, for `PWR_*`, switch nodes, LED and speaker outputs, and sensor 5 V.
@@ -97,3 +112,7 @@ python3 -m venv --system-site-packages .venv   # system Python that has pcbnew
 .venv/bin/python hardware/tools/gen_kicad.py          # all boards
 .venv/bin/python hardware/tools/gen_kicad.py lgt      # one board
 ```
+
+`tools/export_3d.py <kicad 3dmodels dir> <out dir>` exports each board to VRML
+with its component models (used for the 3D renders above).
+

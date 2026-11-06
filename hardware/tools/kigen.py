@@ -632,16 +632,23 @@ def build_pcb(board: Board, outdir: Path, netlist: dict, sch_name: str):
     # to the right of the outline.
     import rectpack
 
+    def box(f):
+        """Physical extent plus the visible reference text (values live on F.Fab)."""
+        bb = f.GetBoundingBox(False, False)
+        if f.Reference().IsVisible():
+            bb.Merge(f.Reference().GetBoundingBox())
+        return bb
+
     def bbox_mm(f):
-        bb = f.GetBoundingBox(True, False)  # include reference/value text
+        bb = box(f)
         return bb, pcbnew.ToMM(bb.GetWidth()), pcbnew.ToMM(bb.GetHeight())
 
     def move_to(f, x, y):
-        bb = f.GetBoundingBox(True, False)
+        bb = box(f)
         pos = f.GetPosition()
         f.SetPosition(VECTOR2I(pos.x + FromMM(x) - bb.GetX(), pos.y + FromMM(y) - bb.GetY()))
 
-    gap = 1.0
+    gap = 0.8
     if board.pack_margin:
         m_x, m_y, m_r, m_b = board.pack_margin
     else:
@@ -663,56 +670,74 @@ def build_pcb(board: Board, outdir: Path, netlist: dict, sch_name: str):
         for pad in f.Pads():
             pad.SetZoneConnection(pcbnew.ZONE_CONNECTION_FULL)
 
-    clusters = []  # (block index, w, h, [(fp, dx, dy)])
-    for bi in sorted(groups):
-        fps = [f for f in groups[bi] if not f.GetReference().startswith("H")]
-        if not fps:
-            continue
+    movable = {bi: [f for f in fps if not f.GetReference().startswith("H")] for bi, fps in groups.items()}
+    for fps in movable.values():
         for f in fps:  # lay parts longer than the board on their side
             _, w, h = bbox_mm(f)
             if h > area_h and w < h:
                 f.SetOrientationDegrees(90)
-        sizes = {f.GetReference(): bbox_mm(f)[1:] for f in fps}
-        total = sum((w + gap) * (h + gap) for w, h in sizes.values())
-        widest = max(w for w, _ in sizes.values()) + gap
-        bin_w = max(widest, min(area_w, (total * 1.6) ** 0.5))
-        pk = rectpack.newPacker(rotation=False, sort_algo=rectpack.SORT_AREA)
-        pk.add_bin(bin_w + 0.01, 10000)
-        byref = {f.GetReference(): f for f in fps}
-        for ref, (w, h) in sizes.items():
-            pk.add_rect(w + gap, h + gap, rid=ref)
-        pk.pack()
-        placed = [(byref[rid], x, y) for (_, x, y, _, _, rid) in pk.rect_list()]
-        cw = max(x + sizes[f.GetReference()][0] for f, x, y in placed) + gap
-        ch = max(y + sizes[f.GetReference()][1] for f, x, y in placed) + gap
-        clusters.append((bi, cw, ch, placed))
+    sizes = {f.GetReference(): bbox_mm(f)[1:] for fps in movable.values() for f in fps}
+    byref = {f.GetReference(): f for fps in movable.values() for f in fps}
 
-    pk = rectpack.newPacker(rotation=False, sort_algo=rectpack.SORT_AREA)
-    pk.add_bin(area_w + 0.01, area_h + 0.01, bid="board")
-    for _ in range(6):
-        pk.add_bin(150, max(H, 120.0), bid="stage")
-    for bi, cw, ch, _ in clusters:
-        pk.add_rect(cw, ch, rid=bi)
-    pk.pack()
-    where = {}
-    stage_bins = []
-    for (b_i, x, y, w, h, rid) in pk.rect_list():
-        bid = pk[b_i].bid
-        if bid == "board":
-            where[rid] = (ox + m_x + x, oy + m_y + y)
-        else:
-            if b_i not in stage_bins:
-                stage_bins.append(b_i)
-            k = stage_bins.index(b_i)
-            where[rid] = (ox + W + 10.0 + 160.0 * k + x, oy + y)
+    def pack(rects, bins, sort_algo):
+        """rects: [(rid, w, h)], bins: [(bid, w, h)] -> {rid: (bid, x, y)}"""
+        pk = rectpack.newPacker(rotation=False, sort_algo=sort_algo)
+        for bid, w, h in bins:
+            pk.add_bin(w + 0.01, h + 0.01, bid=bid)
+        for rid, w, h in rects:
+            pk.add_rect(w, h, rid=rid)
+        pk.pack()
+        return {rid: (pk[b].bid, x, y) for (b, x, y, w, h, rid) in pk.rect_list()}
+
+    # 1) tight cluster per block, clusters onto the board
+    clusters = {}
+    for bi, fps in movable.items():
+        if not fps:
+            continue
+        total = sum((sizes[f.GetReference()][0] + gap) * (sizes[f.GetReference()][1] + gap) for f in fps)
+        widest = max(sizes[f.GetReference()][0] for f in fps) + gap
+        bin_w = max(widest, min(area_w, (total * 1.5) ** 0.5))
+        got = pack([(f.GetReference(), sizes[f.GetReference()][0] + gap, sizes[f.GetReference()][1] + gap) for f in fps],
+                   [("c", bin_w, 10000)], rectpack.SORT_AREA)
+        cw = max(x + sizes[r][0] for r, (_, x, y) in got.items()) + gap
+        ch = max(y + sizes[r][1] for r, (_, x, y) in got.items()) + gap
+        clusters[bi] = (cw, ch, got)
+    at = pack([(bi, cw, ch) for bi, (cw, ch, _) in clusters.items()], [("board", area_w, area_h)], rectpack.SORT_AREA)
+    final = {}
+    if len(at) == len(clusters):
+        for bi, (cw, ch, got) in clusters.items():
+            _, bx, by = at[bi]
+            for r, (_, x, y) in got.items():
+                final[r] = (ox + m_x + bx + x, oy + m_y + by + y)
+    else:
+        # 2) clusters don't all fit: pack individual parts, block by block, largest first
+        order = [f.GetReference() for bi in sorted(movable)
+                 for f in sorted(movable[bi], key=lambda f: -sizes[f.GetReference()][0] * sizes[f.GetReference()][1])]
+        rects = [(r, sizes[r][0] + gap, sizes[r][1] + gap) for r in order]
+        best = {}
+        for algo in (rectpack.SORT_NONE, rectpack.SORT_AREA, rectpack.SORT_PERI):
+            got = pack(rects, [("board", area_w, area_h)], algo)
+            if len(got) > len(best):
+                best = got
+            if len(best) == len(rects):
+                break
+        for r, (_, x, y) in best.items():
+            final[r] = (ox + m_x + x, oy + m_y + y)
+        rest = [rr for rr in rects if rr[0] not in best]
+        if rest:  # stage what still doesn't fit to the right of the outline
+            got = pack(rest, [(f"s{i}", 150, max(H, 120.0)) for i in range(6)], rectpack.SORT_AREA)
+            for r, (bid, x, y) in got.items():
+                final[r] = (ox + W + 10.0 + 160.0 * int(bid[1:]) + x, oy + y)
+    for r, (x, y) in final.items():
+        move_to(byref[r], x, y)
     titles = {bi: blk.title for bi, blk in enumerate(board.blocks)}
-    for bi, cw, ch, placed in clusters:
-        bx, by = where[bi]
+    for bi, fps in movable.items():
+        if not fps:
+            continue
         grp = pcbnew.PCB_GROUP(brd)
         grp.SetName(titles.get(bi, "Other"))
         brd.Add(grp)
-        for f, x, y in placed:
-            move_to(f, bx + x, by + y)
+        for f in fps:
             grp.AddItem(f)
 
     # ground pours

@@ -322,7 +322,7 @@ def hat() -> Board:
 # LGT
 # --------------------------------------------------------------------------
 def lgt() -> Board:
-    b = Board("lgt", "LGT - Lighting Driver Board", size=(60, 45), layers=2, paper="A3",
+    b = Board("lgt", "LGT - Lighting Driver Board", size=(70, 50), layers=2, paper="A3",
               comments=["Two AL8860 constant-current LED drivers: flashlight (CH1) and IR (CH2)",
                         "PWM dimming via CTRL; NTC on the emitter heatsink derates current", GEN_NOTE,
                         "Rev A bootstrap"],
