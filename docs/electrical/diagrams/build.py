@@ -193,8 +193,8 @@ def pdb():
         DIV["R2/R3 100k / 10k<br/>VBAT divider ÷11"]:::passive
         F1["F1 3 A fuse"]:::passive
         U2["U2 buck-boost ctrl<br/>LM5176-class<br/>19 V / 3.2 A (60 W)"]:::ic
-        U3["U3 sync buck<br/>TPS54560-class<br/>5 V / 5 A"]:::ic
-        U4["U4 sync buck<br/>TPS54560-class<br/>5 V / 3 A"]:::ic
+        U3["U3 buck<br/>TPS54560B + Schottky<br/>5 V / 5 A"]:::ic
+        U4["U4 buck<br/>TPS54560B + Schottky<br/>5 V / 3 A"]:::ic
         U5["U5 LDO 3.3 V<br/>AP2112K-3.3"]:::ic
         J2["J2 ESC_OUT · XT60PW-M<br/>→ 4-in-1 ESC"]:::conn
         J3["J3 LGT_PWR · XT30PW-M<br/>→ LGT J1"]:::conn
@@ -301,10 +301,10 @@ def lighting():
         J2["J2 LIGHT_CTRL<br/>JST-GH 4p"]:::conn
         CIN["Input filter<br/>bulk + ceramic caps<br/>TVS"]:::passive
         RC["Per PWM input:<br/>100 Ω series · 10k pull-down<br/>ESD diode"]:::passive
-        U1["U1 constant-current<br/>buck LED driver ≥ 40 V<br/>CH1 · white"]:::ic
-        U2["U2 constant-current<br/>buck LED driver ≥ 40 V<br/>CH2 · IR"]:::ic
-        RS1["R_SENSE1<br/>sets I_FLASH"]:::passive
-        RS2["R_SENSE2<br/>sets I_IR"]:::passive
+        U1["U1 AL8860<br/>constant-current buck<br/>CH1 · white"]:::ic
+        U2["U2 AL8860<br/>constant-current buck<br/>CH2 · IR"]:::ic
+        RS1["R5 sense<br/>sets I_FLASH"]:::passive
+        RS2["R11 sense<br/>sets I_IR"]:::passive
         J3["J3 FLASH_LED<br/>JST-XH 4p"]:::conn
         J4["J4 IR_LED<br/>JST-XH 4p"]:::conn
     end
@@ -325,8 +325,8 @@ def lighting():
     e("U2", "J4", "LED_IR_P / N", "power")
     e("J3", "FL", None, "power")
     e("J4", "IR", None, "power")
-    e("J3", "U1", "NTC_FLASH (thermal derate)", "analog", "-.->")
-    e("J4", "U2", "NTC_IR (thermal derate)", "analog", "-.->")
+    e("J3", "U1", "NTC_FLASH → CTRL (derate)", "analog", "-.->")
+    e("J4", "U2", "NTC_IR → CTRL (derate)", "analog", "-.->")
     d.write()
 
 

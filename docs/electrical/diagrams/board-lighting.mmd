@@ -9,10 +9,10 @@ flowchart LR
         J2["J2 LIGHT_CTRL<br/>JST-GH 4p"]:::conn
         CIN["Input filter<br/>bulk + ceramic caps<br/>TVS"]:::passive
         RC["Per PWM input:<br/>100 Ω series · 10k pull-down<br/>ESD diode"]:::passive
-        U1["U1 constant-current<br/>buck LED driver ≥ 40 V<br/>CH1 · white"]:::ic
-        U2["U2 constant-current<br/>buck LED driver ≥ 40 V<br/>CH2 · IR"]:::ic
-        RS1["R_SENSE1<br/>sets I_FLASH"]:::passive
-        RS2["R_SENSE2<br/>sets I_IR"]:::passive
+        U1["U1 AL8860<br/>constant-current buck<br/>CH1 · white"]:::ic
+        U2["U2 AL8860<br/>constant-current buck<br/>CH2 · IR"]:::ic
+        RS1["R5 sense<br/>sets I_FLASH"]:::passive
+        RS2["R11 sense<br/>sets I_IR"]:::passive
         J3["J3 FLASH_LED<br/>JST-XH 4p"]:::conn
         J4["J4 IR_LED<br/>JST-XH 4p"]:::conn
     end
@@ -32,8 +32,8 @@ flowchart LR
     U2 -->|"LED_IR_P / N"| J4
     J3 --> FL
     J4 --> IR
-    J3 -.->|"NTC_FLASH (thermal derate)"| U1
-    J4 -.->|"NTC_IR (thermal derate)"| U2
+    J3 -.->|"NTC_FLASH → CTRL (derate)"| U1
+    J4 -.->|"NTC_IR → CTRL (derate)"| U2
 
     classDef cots fill:#eef1f5,stroke:#8a97a6,color:#1d2733
     classDef custom fill:#dbeafe,stroke:#1d4ed8,stroke-width:2px,color:#0b2a6b

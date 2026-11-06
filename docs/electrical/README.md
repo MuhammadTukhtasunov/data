@@ -99,7 +99,7 @@ in §6 can be checked against both schematics.
 | `FC_UART_TX`, `FC_UART_RX` | 3.3 V | Jetson ↔ FC | Optional backup to USB MAVLink |
 | `SPK_P`, `SPK_N` | class-D BTL | HAT → speaker | Never tie either side to GND |
 | `LED_FLASH_P/N`, `LED_IR_P/N` | constant current | LGT → emitters | |
-| `NTC_FLASH`, `NTC_IR` | analog | emitter heatsinks → LGT | Thermal derating |
+| `NTC_FLASH`, `NTC_IR` | analog | emitter heatsinks → LGT | Same node as the AL8860 CTRL pin; the NTC derates current |
 | `SENSn_5V`, `SENSn_TX`, `SENSn_RX` (n = 1…8) | 5 V / 3.3 V / 3.3–5 V | SNS ↔ sensors | `TX` = Teensy → sensor |
 
 ---
@@ -142,10 +142,10 @@ in §6 can be checked against both schematics.
 | R2/R3 | VBAT divider | 100 kΩ / 10 kΩ, 0.1 % | 25.2 V → 2.29 V |
 | F1 | Lighting fuse | 3 A | Size to 1.5–2× lighting load |
 | U2 | `PWR_19V_JET` | 4-switch buck-boost controller, LM5176-class, 60 W | Buck-boost keeps 19 V across 4S–6S |
-| U3 | `PWR_5V_AUX` | Sync buck, TPS54560-class, 5 A | |
+| U3 | `PWR_5V_AUX` | Buck, TPS54560B, 5 A | Non-synchronous: needs the external Schottky catch diode (B560C) |
 | U4 | `PWR_5V_SERVO` | Same part as U3, set for 3 A | Isolates servo current spikes from logic |
 | U5 | `3V3_SNS` | AP2112K-3.3 LDO from `PWR_5V_AUX` | Supplies U1 so `FC_CURR_SNS` can't exceed 3.3 V |
-| LED1–4 | Rail-good indicators | 0603 LED + resistor per rail | |
+| D2, D4, D6 | Rail-good indicators | 0603 LED + resistor per rail | |
 
 **Connectors**
 
@@ -241,14 +241,16 @@ carrier has no pull-ups on pins 3/5.
 
 | Ref | Function | Notes |
 |-----|----------|-------|
-| U1, U2 | Constant-current buck LED driver, ≥ 40 V input rating, with a PWM/DIM input (AL8860 or LM3409 class) | One per channel |
-| R_SENSE1/2 | Sets LED current | Set to the emitter's rated current |
+| U1, U2 | AL8860 constant-current buck LED driver (40 V), PWM/analog dimming on CTRL | One per channel |
+| R5, R11 | Current sense | LED current ≈ 0.1 V / R (0.068 Ω ≈ 1.5 A). Set to the emitter's rated current |
+| CTRL network | 4.7 kΩ from the PWM input, 100 kΩ to GND, NTC (10 kΩ B3950) on the emitter heatsink from CTRL to GND | A hot NTC pulls CTRL down and reduces current |
 | Input filter | Bulk + ceramic caps, TVS | |
 | PWM inputs | 100 Ω series, 10 kΩ pull-down, ESD diode | Pull-down keeps lights off if the cable is unplugged |
 
 - Drive the DIM inputs at ≥ 20 kHz, or use the driver's analog-dim mode,
   so the lights don't cause flicker banding in the cameras.
-- Check that each driver's DIM pin accepts 5 V logic.
+- Check the AL8860 CTRL voltage range and internal pull-up, then adjust the
+  4.7 kΩ / 100 kΩ CTRL network.
 - On 4S, the LED string's forward voltage must stay below ≈ 11 V for a
   buck driver to regulate.
 - Use 2 oz copper and thermal vias under each driver; mount the board near
@@ -296,7 +298,7 @@ carrier has no pull-ups on pins 3/5.
 |-----|------|------|-------|-------|-------|-------|-------|-------|
 | J1 | 5V_IN | Micro-Fit 3.0, 2p | `PWR_5V_AUX` | `GND` | | | | |
 | J2–J9 | RANGE1–4, ECHO1–4 | JST-GH 4p | `SENSn_5V` | `SENSn_TX` | `SENSn_RX` | `GND` | | |
-| J10 | EXP | 1×6 male, 2.54 mm | `3V3` | `GND` | `I2C_SDA` (18) | `I2C_SCL` (19) | GPIO 2 | GPIO 3 |
+| J10 | EXP | 1×6 male, 2.54 mm | `3V3_T` | `GND` | `SNS_SDA` (18) | `SNS_SCL` (19) | GPIO 2 | GPIO 3 |
 
 ---
 
@@ -341,9 +343,10 @@ carrier has no pull-ups on pins 3/5.
 ## 8. KiCad setup
 
 - **One KiCad project per board:** `hardware/pdb`, `hardware/hat`,
-  `hardware/lgt`, `hardware/sns`. Use one hierarchical sheet per block in §5
-  (e.g. PDB: `input_protection`, `current_sense`, `rail_19v`, `rail_5v_aux`,
-  `rail_5v_servo`, `connectors`).
+  `hardware/lgt`, `hardware/sns` (started — see
+  [`hardware/README.md`](../../hardware/README.md)). Rev A schematics are one
+  flat sheet per board with each §5 block drawn as a labelled frame; split
+  them into hierarchical sheets later if they grow.
 - **Labels:** use the §3 net names as global labels, and give connectors the
   §5 reference designators so the §6 cable list checks against each
   schematic.
